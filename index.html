@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математикалык Марафон</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-slate-800 p-8 rounded-3xl shadow-2xl border border-blue-500/30 text-center">
+        <h1 class="text-3xl font-black mb-6 text-blue-400">МАТЕМАТИКАЛЫК МАРАФОН</h1>
+        <div id="setup">
+            <input type="text" id="playerName" placeholder="Атыңызды жазыңыз..." class="w-full bg-slate-700 p-4 rounded-xl mb-4 text-center text-xl outline-none focus:ring-2 ring-blue-500 text-white">
+            <button onclick="startGame()" class="w-full bg-blue-600 p-4 rounded-xl font-bold hover:bg-blue-500 transition-all">ОЮНДУ БАШТОО</button>
+        </div>
+        <div id="game" class="hidden text-white">
+            <div class="flex justify-between mb-8 text-sm text-slate-400">
+                <span id="displayLevel">Деңгээл: 1</span>
+                <span id="displayScore">Упай: 0</span>
+            </div>
+            <h2 id="question" class="text-5xl font-bold mb-8"></h2>
+            <input type="number" id="answerInput" class="w-full bg-slate-700 p-4 rounded-xl mb-4 text-center text-4xl outline-none" placeholder="?">
+            <button onclick="checkAnswer()" class="w-full bg-emerald-600 p-4 rounded-xl font-bold text-xl">ЖООП</button>
+        </div>
+    </div>
+    <script>
+        let score = 0, level = 1, currentAnswer = 0;
+        function startGame() {
+            if(!document.getElementById('playerName').value) return alert("Атыңызды жазыңыз!");
+            document.getElementById('setup').classList.add('hidden');
+            document.getElementById('game').classList.remove('hidden');
+            nextQuestion();
+        }
+        function nextQuestion() {
+            const a = Math.floor(Math.random() * (10 * level)) + 1;
+            const b = Math.floor(Math.random() * (10 * level)) + 1;
+            document.getElementById('question').innerText = `${a} + ${b}`;
+            currentAnswer = a + b;
+            document.getElementById('answerInput').value = '';
+        }
+        function checkAnswer() {
+            const userAns = parseInt(document.getElementById('answerInput').value);
+            if(userAns === currentAnswer) {
+                score += 10; level++;
+                document.getElementById('displayScore').innerText = `Упай: ${score}`;
+                document.getElementById('displayLevel').innerText = `Деңгээл: ${level}`;
+                nextQuestion();
+            } else {
+                alert("Жаңылыштыңыз! Упай: " + score);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
